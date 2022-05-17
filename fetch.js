@@ -1,3 +1,7 @@
+var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+var chromeVersion = raw ? parseInt(raw[2], 10) : false;
+var blobSupport = !chromeVersion || chromeVersion >= 47;
+
 var global =
   (typeof globalThis !== 'undefined' && globalThis) ||
   (typeof self !== 'undefined' && self) ||
@@ -7,7 +11,7 @@ var global =
 var support = {
   searchParams: 'URLSearchParams' in global,
   iterable: 'Symbol' in global && 'iterator' in Symbol,
-  blob:
+  blob: blobSupport &&
     'FileReader' in global &&
     'Blob' in global &&
     (function() {
